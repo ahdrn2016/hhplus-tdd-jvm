@@ -50,7 +50,7 @@ public class PointService {
         }
 
         UserPoint origin = userPointTable.selectById(id);
-        if(amount > origin.point()) {
+        if (amount > origin.point()) {
             throw new RuntimeException("보유 포인트보다 초과 사용할 수 없습니다.");
         }
 
