@@ -43,6 +43,21 @@ class PointServiceTest {
                 () -> pointService.charge(id, amount)
         );
     }
+    
+    @Test
+    void 충전_포인트와_보유_포인트의_합산이_100만원_초과하면_요청은_실패한다() {
+        // given
+        Long id = 1L;
+        Long amount = 100_000L;
+        given(userPointTable.selectById(id))
+                .willReturn(new UserPoint(id, 1_000_000L, System.currentTimeMillis()));
+
+        // when // then
+        assertThrows(
+                Exception.class,
+                () -> pointService.charge(id, amount)
+        );
+    }
 
     @Test
     void 포인트_충전_요청에_성공한다() {
