@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 class PointServiceTest {
 
@@ -27,6 +27,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.charge(id, amount)
         );
+        verify(userPointTable, never()).selectById(anyLong());
     }
 
     @Test
@@ -42,6 +43,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.charge(id, amount)
         );
+        verify(userPointTable, times(1)).selectById(anyLong());
     }
     
     @Test
@@ -57,6 +59,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.charge(id, amount)
         );
+        verify(userPointTable, times(1)).selectById(anyLong());
     }
 
     @Test
@@ -77,6 +80,8 @@ class PointServiceTest {
 
         // then
         assertEquals(chargeAfterPoint, userPoint.point());
+        verify(userPointTable, times(1)).selectById(anyLong());
+        verify(userPointTable, times(1)).insertOrUpdate(anyLong(), anyLong());
     }
 
     @Test
@@ -93,6 +98,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.use(id, amount)
         );
+        verify(userPointTable, never()).selectById(anyLong());
     }
 
     @Test
@@ -108,6 +114,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.use(id, amount)
         );
+        verify(userPointTable, never()).selectById(anyLong());
     }
 
     @Test
@@ -124,6 +131,7 @@ class PointServiceTest {
                 Exception.class,
                 () -> pointService.use(id, amount)
         );
+        verify(userPointTable, times(1)).selectById(anyLong());
     }
 
     @Test
@@ -144,6 +152,8 @@ class PointServiceTest {
 
         // then
         assertEquals(useAfterPoint, userPoint.point());
+        verify(userPointTable, times(1)).selectById(anyLong());
+        verify(userPointTable, times(1)).insertOrUpdate(anyLong(), anyLong());
     }
   
 }
